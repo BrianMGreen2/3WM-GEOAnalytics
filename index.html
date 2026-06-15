@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From GEO Metrics to Analytics: AI Marketing ROI | 3 Wired Minds</title>
+<meta name="description" content="Traditional analytics starts at the click. But the decision happens before the click — inside an AI model. Here's how to measure, score, and act on the metrics that actually determine whether your business gets recommended.">
+<meta property="og:title" content="From GEO Metrics to Analytics: AI Marketing ROI | 3 Wired Minds">
+<meta property="og:description" content="Traditional analytics starts at the click. The decision happens before the click. Here's how to measure what AI models say about your business — and turn those signals into revenue.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="3 Wired Minds">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;
+  --surface:#111827;
+  --surface-2:#1e293b;
+  --surface-3:#243044;
+  --mint:#6ee7b7;
+  --mint-dim:rgba(110,231,183,0.12);
+  --mint-border:rgba(110,231,183,0.25);
+  --text:#f0f4ff;
+  --text-mid:#b8c5d6;
+  --text-muted:#6b7fa3;
+  --border:rgba(255,255,255,0.07);
+  --amber:#fbbf24;
+  --amber-dim:rgba(251,191,36,0.1);
+  --blue:#60a5fa;
+  --blue-dim:rgba(96,165,250,0.1);
+  --display:'Space Grotesk',system-ui,sans-serif;
+  --body:'Inter',system-ui,sans-serif;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--bg);
+  color:var(--text);
+  font-size:17px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── LAYOUT ── */
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+.container-wide{max-width:900px;margin:0 auto;padding:0 1.5rem}
+
+/* ── MASTHEAD ── */
+.masthead{
+  border-bottom:1px solid var(--border);
+  padding:1.25rem 0;
+  margin-bottom:0;
+}
+.masthead-inner{
+  max-width:900px;
+  margin:0 auto;
+  padding:0 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand{
+  font-family:var(--display);
+  font-size:15px;
+  font-weight:600;
+  letter-spacing:0.04em;
+  color:var(--text);
+}
+.brand span{color:var(--mint)}
+.masthead-tag{
+  font-size:11px;
+  font-family:var(--display);
+  font-weight:500;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+}
+
+/* ── HERO ── */
+.hero{
+  padding:5rem 0 3.5rem;
+  border-bottom:1px solid var(--border);
+  margin-bottom:3.5rem;
+}
+.eyebrow{
+  font-family:var(--display);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--mint);
+  margin-bottom:1.25rem;
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+}
+.eyebrow::before{
+  content:'';
+  display:block;
+  width:24px;
+  height:1px;
+  background:var(--mint);
+  opacity:0.6;
+}
+h1{
+  font-family:var(--display);
+  font-size:clamp(30px,5vw,50px);
+  font-weight:700;
+  line-height:1.12;
+  letter-spacing:-0.02em;
+  color:var(--text);
+  margin-bottom:1.5rem;
+  max-width:640px;
+}
+h1 em{
+  font-style:normal;
+  color:var(--mint);
+}
+.hero-sub{
+  font-size:18px;
+  color:var(--text-mid);
+  line-height:1.7;
+  max-width:580px;
+  margin-bottom:2rem;
+}
+.meta-row{
+  display:flex;
+  gap:1.5rem;
+  font-size:12.5px;
+  color:var(--text-muted);
+  font-family:var(--display);
+  font-weight:500;
+  flex-wrap:wrap;
+}
+.meta-row span{display:flex;align-items:center;gap:5px}
+
+/* ── ARTICLE BODY ── */
+.article-body{padding-bottom:5rem}
+.article-body p{
+  color:var(--text-mid);
+  margin-bottom:1.4rem;
+  font-size:17px;
+  line-height:1.8;
+}
+.article-body p strong{color:var(--text);font-weight:500}
+
+h2{
+  font-family:var(--display);
+  font-size:24px;
+  font-weight:600;
+  color:var(--text);
+  margin:3.5rem 0 1rem;
+  letter-spacing:-0.01em;
+  line-height:1.3;
+}
+h3{
+  font-family:var(--display);
+  font-size:16px;
+  font-weight:600;
+  color:var(--mint);
+  margin:2rem 0 0.5rem;
+  letter-spacing:0.02em;
+  text-transform:uppercase;
+  font-size:11.5px;
+}
+
+/* ── SIGNATURE ELEMENT: SERP vs SHORTLIST ── */
+.comparison-block{
+  margin:3rem 0 3.5rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+.comp-col{background:var(--surface);padding:1.5rem 1.25rem}
+.comp-col.highlight{background:var(--surface-2)}
+.comp-head{
+  font-family:var(--display);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  margin-bottom:1rem;
+  padding-bottom:0.6rem;
+  border-bottom:1px solid var(--border);
+}
+.comp-head.dim{color:var(--text-muted)}
+.comp-head.bright{color:var(--mint)}
+.serp-result{
+  padding:5px 0;
+  font-size:13px;
+  border-bottom:1px solid var(--border);
+  color:var(--text-muted);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.serp-result:last-child{border-bottom:none}
+.serp-result.faded{opacity:0.3}
+.serp-result.very-faded{opacity:0.12}
+.rank-num{
+  font-family:var(--display);
+  font-size:10px;
+  font-weight:600;
+  color:var(--text-muted);
+  width:16px;
+  flex-shrink:0;
+}
+.shortlist-item{
+  padding:8px 10px;
+  margin-bottom:6px;
+  border-radius:8px;
+  font-size:13px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.shortlist-item.active{
+  background:var(--mint-dim);
+  border:1px solid var(--mint-border);
+  color:var(--text);
+}
+.shortlist-item.passive{
+  background:var(--surface-3);
+  border:1px solid var(--border);
+  color:var(--text-mid);
+}
+.sl-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.sl-dot.green{background:var(--mint)}
+.sl-dot.gray{background:var(--text-muted)}
+.comp-note{
+  font-size:11.5px;
+  color:var(--text-muted);
+  margin-top:0.75rem;
+  line-height:1.5;
+  font-style:italic;
+}
+
+/* ── PULL STAT ── */
+.pull-stat{
+  border-left:2px solid var(--mint);
+  padding:1.25rem 1.5rem;
+  margin:2.5rem 0;
+  background:var(--mint-dim);
+  border-radius:0 10px 10px 0;
+}
+.pull-stat .number{
+  font-family:var(--display);
+  font-size:42px;
+  font-weight:700;
+  color:var(--mint);
+  line-height:1;
+  margin-bottom:4px;
+}
+.pull-stat .label{
+  font-size:13.5px;
+  color:var(--text-mid);
+  line-height:1.5;
+}
+.pull-stat .source{
+  font-size:11px;
+  color:var(--text-muted);
+  margin-top:6px;
+  font-style:italic;
+}
+
+/* ── THREE LAYERS ── */
+.layers{margin:2.5rem 0 3rem;display:flex;flex-direction:column;gap:2px}
+.layer-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:1.25rem 1.5rem;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:1rem 1.25rem;
+  align-items:start;
+  transition:border-color 0.2s;
+}
+.layer-card:hover{border-color:rgba(110,231,183,0.3)}
+.layer-num{
+  font-family:var(--display);
+  font-size:28px;
+  font-weight:700;
+  color:var(--text-muted);
+  line-height:1;
+  opacity:0.4;
+  margin-top:2px;
+}
+.layer-q{
+  font-family:var(--display);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--mint);
+  margin-bottom:4px;
+}
+.layer-title{
+  font-family:var(--display);
+  font-size:17px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:5px;
+}
+.layer-desc{
+  font-size:14px;
+  color:var(--text-mid);
+  line-height:1.6;
+}
+.layer-dep{
+  grid-column:1/-1;
+  font-size:12px;
+  color:var(--amber);
+  background:var(--amber-dim);
+  border-radius:6px;
+  padding:6px 10px;
+  line-height:1.5;
+}
+
+/* ── METRICS GRID ── */
+.metrics-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:2rem 0 3rem;
+}
+.metric-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:1.1rem 1.25rem;
+}
+.metric-tag{
+  font-family:var(--display);
+  font-size:9.5px;
+  font-weight:600;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:2px 7px;
+  border-radius:4px;
+  display:inline-block;
+  margin-bottom:8px;
+}
+.tag-entity{background:rgba(96,165,250,0.12);color:var(--blue)}
+.tag-position{background:rgba(167,139,250,0.12);color:#a78bfa}
+.tag-selection{background:var(--mint-dim);color:var(--mint)}
+.metric-name{
+  font-family:var(--display);
+  font-size:15px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:4px;
+  line-height:1.3;
+}
+.metric-desc{font-size:12.5px;color:var(--text-muted);line-height:1.55}
+.metric-key{
+  margin-top:8px;
+  font-size:11.5px;
+  color:var(--text-mid);
+  border-top:1px solid var(--border);
+  padding-top:7px;
+  line-height:1.5;
+}
+.metric-key strong{color:var(--text);font-weight:500}
+
+/* ── RESEARCH CALLOUT ── */
+.research-box{
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.75rem;
+  margin:2.5rem 0;
+}
+.research-box .rb-head{
+  font-family:var(--display);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin-bottom:1rem;
+}
+.rb-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.rb-stat .n{
+  font-family:var(--display);
+  font-size:26px;
+  font-weight:700;
+  line-height:1;
+  margin-bottom:3px;
+}
+.rb-stat .l{font-size:12px;color:var(--text-muted);line-height:1.4}
+.rb-stat:nth-child(1) .n{color:var(--blue)}
+.rb-stat:nth-child(2) .n{color:var(--amber)}
+.rb-stat:nth-child(3) .n{color:var(--mint)}
+.rb-source{font-size:11px;color:var(--text-muted);margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border);font-style:italic}
+
+/* ── TIMELINE ── */
+.timeline{margin:2rem 0 3rem;position:relative;padding-left:1.5rem;border-left:2px solid var(--surface-3)}
+.tl-item{margin-bottom:1.75rem;position:relative}
+.tl-item::before{
+  content:'';
+  position:absolute;
+  left:-1.6rem;
+  top:6px;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--surface-3);
+  border:2px solid var(--mint);
+}
+.tl-period{
+  font-family:var(--display);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.08em;
+  color:var(--mint);
+  margin-bottom:4px;
+}
+.tl-title{
+  font-family:var(--display);
+  font-size:15px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:3px;
+}
+.tl-desc{font-size:13.5px;color:var(--text-mid);line-height:1.6}
+
+/* ── ROI BLOCK ── */
+.roi-block{
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.75rem;
+  margin:2.5rem 0;
+}
+.roi-levers{display:flex;flex-direction:column;gap:10px}
+.roi-lever{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  background:var(--surface);
+  border-radius:8px;
+  padding:0.85rem 1rem;
+  border:1px solid var(--border);
+}
+.lever-icon{
+  width:28px;height:28px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-size:12px;font-weight:700;
+  flex-shrink:0;margin-top:1px;
+}
+.li-1{background:rgba(96,165,250,0.12);color:var(--blue)}
+.li-2{background:var(--amber-dim);color:var(--amber)}
+.li-3{background:var(--mint-dim);color:var(--mint)}
+.lever-title{
+  font-family:var(--display);
+  font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:2px
+}
+.lever-desc{font-size:12.5px;color:var(--text-muted);line-height:1.5}
+
+/* ── WEBMCP CALLOUT ── */
+.forward-box{
+  background:linear-gradient(135deg,#0d1f2d 0%,#0d1117 100%);
+  border:1px solid rgba(96,165,250,0.2);
+  border-radius:12px;
+  padding:1.75rem;
+  margin:2.5rem 0;
+}
+.forward-box .fb-head{
+  font-family:var(--display);
+  font-size:11px;font-weight:600;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--blue);margin-bottom:0.75rem;
+}
+.forward-box .fb-title{
+  font-family:var(--display);
+  font-size:19px;font-weight:600;
+  color:var(--text);margin-bottom:0.75rem;line-height:1.3;
+}
+.forward-box .fb-body{
+  font-size:14px;color:var(--text-mid);line-height:1.7;margin-bottom:1rem
+}
+.stat-pair{display:flex;gap:1.5rem;margin-top:1rem}
+.sp-item .sp-n{font-family:var(--display);font-size:24px;font-weight:700;color:var(--blue)}
+.sp-item .sp-l{font-size:12px;color:var(--text-muted);line-height:1.4}
+
+/* ── CLOSE / TAKEAWAYS ── */
+.takeaways{margin:2.5rem 0;display:flex;flex-direction:column;gap:10px}
+.takeaway{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:1rem;
+  align-items:start;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:1.25rem;
+}
+.ta-num{
+  font-family:var(--display);
+  font-size:13px;font-weight:700;
+  color:var(--mint);
+  background:var(--mint-dim);
+  border:1px solid var(--mint-border);
+  width:32px;height:32px;
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.ta-title{
+  font-family:var(--display);
+  font-size:16px;font-weight:600;color:var(--text);margin-bottom:4px
+}
+.ta-body{font-size:13.5px;color:var(--text-mid);line-height:1.6}
+
+/* ── FOOTER ── */
+.article-footer{
+  border-top:1px solid var(--border);
+  padding:2.5rem 0;
+  margin-top:2rem;
+}
+.footer-inner{
+  max-width:900px;margin:0 auto;padding:0 1.5rem;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem
+}
+.footer-brand{font-family:var(--display);font-weight:600;font-size:14px;color:var(--text)}
+.footer-brand span{color:var(--mint)}
+.footer-links{font-size:12.5px;color:var(--text-muted)}
+.footer-links a{color:var(--mint);text-decoration:none}
+
+/* ── DIVIDER ── */
+.section-break{
+  display:flex;align-items:center;gap:1rem;
+  margin:3rem 0;color:var(--text-muted);font-size:12px;
+  font-family:var(--display);letter-spacing:0.08em;text-transform:uppercase
+}
+.section-break::before,.section-break::after{
+  content:'';flex:1;height:1px;background:var(--border)
+}
+
+@media(max-width:600px){
+  .comparison-block{grid-template-columns:1fr}
+  .metrics-grid{grid-template-columns:1fr}
+  .rb-stats{grid-template-columns:1fr 1fr}
+  .rb-stats .rb-stat:last-child{grid-column:1/-1}
+  .stat-pair{flex-direction:column;gap:0.75rem}
+  h1{font-size:28px}
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand">3 Wired<span>Minds</span></div>
+    <div class="masthead-tag">GEO & AI Marketing Intelligence</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="eyebrow">Generative Engine Optimization</div>
+    <h1>Your analytics stack starts at the click. The decision already <em>happened.</em></h1>
+    <p class="hero-sub">Traditional SEO optimizes for position in a list of ten. GEO optimizes for inclusion in a shortlist of three. It's a different mathematical problem — and your current tools can't see it.</p>
+    <div class="meta-row">
+      <span>3 Wired Minds</span>
+      <span>April 2026</span>
+      <span>12 min read</span>
+    </div>
+  </div>
+</div>
+
+<!-- ARTICLE BODY -->
+<div class="article-body">
+<div class="container">
+
+<p>Every analytics platform in your stack — GA4, SEMrush, Ahrefs, your attribution model — starts measuring at the same moment: when someone clicks. But by then, the hard part is already over. The user has already asked an AI system what they should use, who they should consider, and which options are worth their time. Your business was either in that answer or it wasn't. And you have no data on which.</p>
+
+<p>This is the measurement gap that Generative Engine Optimization exists to close. Not a content gap, not an SEO gap — a <strong>measurement gap</strong>. The data exists. The signals are real and scoreable. They just aren't being captured by any tool in the room.</p>
+
+<div class="section-break">The Core Difference</div>
+
+<h2>A different mathematical problem</h2>
+
+<p>When a user types a query into a search engine, they get a ranked list of ten blue links. Your goal in traditional SEO is to rank as high on that list as possible. The math is positional: be first among ten, or as close to first as your authority can get you.</p>
+
+<p>When a user asks an AI system the same question — "what's the best B2B analytics platform for a mid-market team?" — they get a different kind of answer entirely. The model doesn't return a ranked list of ten. It generates a recommendation of three, maybe four, candidates. And it generates that list dynamically, based on how it has represented each entity across its training data.</p>
+
+<p>Your goal in that context is not to rank first. It's to be <strong>included at all</strong>. You are not optimizing for position in a list of ten. You are optimizing for inclusion in a shortlist of three. That is a fundamentally different problem — and it requires different signals, different metrics, and different tools.</p>
+
+</div><!-- end .container -->
+
+<!-- SIGNATURE ELEMENT: SERP vs SHORTLIST -->
+<div class="container-wide">
+<div class="comparison-block" role="figure" aria-label="Traditional search returns a list of ten ranked results. AI returns a shortlist of three.">
+  <div class="comp-col">
+    <div class="comp-head dim">Traditional search — ranked list of 10</div>
+    <div class="serp-result"><span class="rank-num">1</span>Vendor A</div>
+    <div class="serp-result"><span class="rank-num">2</span>Vendor B</div>
+    <div class="serp-result"><span class="rank-num">3</span>Vendor C</div>
+    <div class="serp-result faded"><span class="rank-num">4</span>Vendor D</div>
+    <div class="serp-result faded"><span class="rank-num">5</span>Vendor E</div>
+    <div class="serp-result faded"><span class="rank-num">6</span>Vendor F</div>
+    <div class="serp-result very-faded"><span class="rank-num">7</span>Vendor G</div>
+    <div class="serp-result very-faded"><span class="rank-num">8</span>Vendor H</div>
+    <div class="serp-result very-faded"><span class="rank-num">9</span>Vendor I</div>
+    <div class="serp-result very-faded"><span class="rank-num">10</span>Vendor J</div>
+    <p class="comp-note">Optimize for position. The metric is rank.</p>
+  </div>
+  <div class="comp-col highlight">
+    <div class="comp-head bright">AI recommendation — shortlist of 3</div>
+    <div class="shortlist-item active"><span class="sl-dot green"></span>Vendor A — recommended for your use case</div>
+    <div class="shortlist-item active"><span class="sl-dot green"></span>Vendor C — strong fit for mid-market teams</div>
+    <div class="shortlist-item passive"><span class="sl-dot gray"></span>Vendor F — worth evaluating if budget allows</div>
+    <br>
+    <p style="font-size:12.5px;color:var(--text-muted);font-style:italic">Vendors B, D, E, G–J: not included.<br>No ranking signal. Just absence.</p>
+    <p class="comp-note">Optimize for inclusion. The metric is presence in the shortlist — and the confidence with which you're recommended.</p>
+  </div>
+</div>
+</div><!-- end .container-wide -->
+
+<div class="container">
+
+<p>The business implication is stark. In traditional search, ranking fifth still gets you traffic. In AI-generated recommendations, being fifth doesn't exist — you're either in the shortlist or you're not mentioned at all. And unlike a search ranking, which you can track in real time, the AI's representation of your business is invisible to your current analytics stack.</p>
+
+<div class="section-break">The Research</div>
+
+<h2>The gap is measurable — and most businesses are on the wrong side of it</h2>
+
+<div class="research-box">
+  <div class="rb-head">Research — Chen et al., Ultra Lab · April 2026 · 816 citations studied</div>
+  <div class="rb-stats">
+    <div class="rb-stat">
+      <div class="n">64.5</div>
+      <div class="l">Mean AEO score<br>(AI entity optimization)</div>
+    </div>
+    <div class="rb-stat">
+      <div class="n">80.6</div>
+      <div class="l">Mean SEO score<br>for the same businesses</div>
+    </div>
+    <div class="rb-stat">
+      <div class="n">80.2</div>
+      <div class="l">Mean AVS for recommendation queries — "best X for Y"</div>
+    </div>
+  </div>
+  <div class="rb-source">The 16-point gap between AEO and SEO scores reflects a consistent pattern: most businesses have done the SEO work but have not addressed the AI-readiness layer. The 80.2 AVS for recommendation queries is particularly significant — those are the queries where buyers are actively comparing options, which is where the revenue ROI lives. If your AVS falls below 75, you are statistically unlikely to appear in those queries.</div>
+</div>
+
+<p>The 16-point gap between SEO score and AEO score tells a consistent story across the 816 citations studied: businesses have invested in being findable by search engines, but have not yet addressed what determines whether an AI system recommends them. Those are related but different problems, and the work required to close the AEO gap is structurally different from the SEO work that most marketing teams already know how to do.</p>
+
+<div class="section-break">The Framework</div>
+
+<h2>Three layers, three questions — in order</h2>
+
+<p>GEO performance is not one thing. It's a dependency stack. Fixing the wrong layer first produces zero ROI, and the most common mistake is trying to optimize for selection before the foundation is stable. The framework has three sequential layers, and each one has to be functional before the next one pays off.</p>
+
+<div class="layers">
+
+  <div class="layer-card">
+    <div class="layer-num">1</div>
+    <div>
+      <div class="layer-q">Entity Hardening · "Am I being found?"</div>
+      <div class="layer-title">Can AI resolve your business as a distinct entity?</div>
+      <div class="layer-desc">Before an AI model can recommend you, it has to know you exist as a coherent, unambiguous entity. That means consistent signals across the sources the model reads — your website, third-party reviews, industry directories, press mentions, structured data. If those signals are inconsistent or absent, the model can't resolve your entity with confidence. You will not appear in recommendation queries, regardless of how good your product is.</div>
+    </div>
+  </div>
+
+  <div class="layer-card">
+    <div class="layer-num">2</div>
+    <div>
+      <div class="layer-q">Positioning Accuracy · "Am I being placed correctly?"</div>
+      <div class="layer-title">Once found, does AI put you in the right category?</div>
+      <div class="layer-desc">Entity resolution is necessary but not sufficient. The next question is whether the model places you in the correct competitive set — whether it includes you in the comparison queries where buyers are actually making decisions. A business can have strong entity resolution but still be absent from the "best X for Y" queries that drive pipeline if the model's representation of its category fit is inaccurate.</div>
+    </div>
+  </div>
+
+  <div class="layer-card">
+    <div class="layer-num">3</div>
+    <div>
+      <div class="layer-q">Selection Confidence · "Am I being chosen?"</div>
+      <div class="layer-title">When AI includes you, does it recommend you confidently?</div>
+      <div class="layer-desc">The final layer is about how you're represented when you do appear. Does the model say "Vendor X may be worth considering" or "Vendor X is the leading option for teams with this profile"? The qualifier matters — hedging language reduces conversion from AI recommendation to user click. Selection confidence is measurable per prompt run, and it's the metric most directly tied to downstream revenue.</div>
+    </div>
+    <div class="layer-dep">⚑ Layer dependency: fixing Layer 3 when Layer 1 is broken produces zero ROI. You cannot be recommended confidently for a category you have not been correctly included in. Work the layers in order.</div>
+  </div>
+
+</div>
+
+<div class="section-break">The Metrics</div>
+
+<h2>Eight pillars — what's actually being measured</h2>
+
+<p>The three layers are made operational through eight distinct metrics. These are the pillars that determine your GEO score — and each one connects to a specific revenue lever.</p>
+
+<div class="metrics-grid">
+
+  <div class="metric-card">
+    <div class="metric-tag tag-entity">Entity Hardening</div>
+    <div class="metric-name">Disambiguation Score</div>
+    <div class="metric-desc">Can AI resolve your entity correctly from partial signals — your company name alone, without the URL?</div>
+    <div class="metric-key"><strong>If low:</strong> You have an entity resolution problem. Signals are inconsistent or insufficient across the sources models read.</div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-tag tag-entity">Entity Hardening</div>
+    <div class="metric-name">Source Dependence</div>
+    <div class="metric-desc">How concentrated is the model's knowledge of your business? How many authoritative sources does it draw from?</div>
+    <div class="metric-key"><strong>If high:</strong> Fragile visibility. If one source is deindexed or updated, your AI presence drops with it. Resilient visibility requires 8+ sources.</div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-tag tag-position">Positioning Accuracy</div>
+    <div class="metric-name">Inclusion Rate</div>
+    <div class="metric-desc">What percentage of relevant category and comparison queries result in your business being mentioned?</div>
+    <div class="metric-key"><strong>The primary metric.</strong> Directly determines pipeline opportunity. Lifts with entity hardening and comparative presence work.</div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-tag tag-position">Positioning Accuracy</div>
+    <div class="metric-name">Comparative Absence</div>
+    <div class="metric-desc">Which specific competitor comparison queries are you missing from? "Vendor A vs Vendor B" — are you in those results?</div>
+    <div class="metric-key"><strong>High ROI lever.</strong> Comparative queries are late-funnel. Appearing here lifts close rate directly.</div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-tag tag-selection">Selection Confidence</div>
+    <div class="metric-name">Hedging Score</div>
+    <div class="metric-desc">Does the model recommend you confidently or hedge? "May be worth considering" vs "is the leading option for X."</div>
+    <div class="metric-key"><strong>Measured per prompt run.</strong> The qualifier in the recommendation affects click-through. Hedging is a structure problem, not a content problem.</div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-tag tag-selection">Selection Confidence</div>
+    <div class="metric-name">Compression Failure</div>
+    <div class="metric-desc">When AI reduces your content to 2–3 sentences for a user, which attributes survive? Which ones get dropped?</div>
+    <div class="metric-key"><strong>Not a content problem — a structure problem.</strong> If your differentiators are in paragraph three, they don't survive compression. Add extractable fact blocks.</div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-tag tag-entity">Entity Hardening</div>
+    <div class="metric-name">Attribute Accuracy</div>
+    <div class="metric-desc">Are the factual attributes the model associates with your business correct? Wrong founding year, wrong category, wrong geography?</div>
+    <div class="metric-key"><strong>Foundation metric.</strong> Inaccurate attributes contaminate all downstream layers. Must be corrected before positioning work begins.</div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-tag tag-selection">Selection Confidence</div>
+    <div class="metric-name">Interpretive Stability</div>
+    <div class="metric-desc">Does the model represent your business consistently across prompt runs, models, and time? Or does the representation vary?</div>
+    <div class="metric-key"><strong>Compounding signal.</strong> When stability improves over time and deltas shrink, that's evidence of GEO work propagating into model weights.</div>
+  </div>
+
+</div>
+
+<p>Two of these metrics deserve particular attention for analytics practitioners: <strong>compression failure</strong> and <strong>hedging score</strong>.</p>
+
+<p>Compression failure is counterintuitive because it's often diagnosed as a content problem when it's actually a structural one. When an AI model summarizes your website for a user, it doesn't read every paragraph — it extracts the most prominent, structured, and semantically weighted content. If your key differentiators are buried in paragraph three of a product description, they are almost certain not to survive that extraction. The fix is not to write more content. It's to restructure existing content with extractable fact blocks — specific, clearly labeled claims that survive the compression process.</p>
+
+<p>Hedging score matters because the qualifier in an AI recommendation affects whether a user acts on it. "Vendor X may be worth considering if budget allows" and "Vendor X is the recommended option for teams of this profile" are both inclusions in the shortlist — but they produce meaningfully different downstream behavior. Reducing hedging is a function of source authority and claim consistency, and it's directly measurable in prompt run data.</p>
+
+<div class="pull-stat">
+  <div class="number">29</div>
+  <div class="label">Compression failure score for a representative B2B analytics platform — meaning nearly a third of key product attributes are dropped when AI compresses the content for a user query. This is not a content volume problem. It's a structure problem.</div>
+  <div class="source">Illustrative score from GEO dashboard demo analysis, April 2026</div>
+</div>
+
+<div class="section-break">The Revenue Model</div>
+
+<h2>From pillar scores to dollars</h2>
+
+<p>GEO is only analytically useful if the metrics connect to revenue. Each of the eight pillars maps to a specific point in the revenue funnel — and the improvement levers are different at each point.</p>
+
+<div class="roi-block">
+  <div style="font-family:var(--display);font-size:13px;font-weight:600;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem">Revenue levers by pillar fix</div>
+  <div class="roi-levers">
+    <div class="roi-lever">
+      <div class="lever-icon li-1">1</div>
+      <div>
+        <div class="lever-title">Visibility gap fix → inclusion rate → pipeline volume</div>
+        <div class="lever-desc">The most powerful lever. Fixing entity hardening and comparative absence lifts the percentage of relevant queries where you appear. More appearances = more pipeline entry points. This is the primary GEO revenue multiplier.</div>
+      </div>
+    </div>
+    <div class="roi-lever">
+      <div class="lever-icon li-2">2</div>
+      <div>
+        <div class="lever-title">Compression and clarity fix → click-through rate</div>
+        <div class="lever-desc">Once you're in the shortlist, how well your key attributes survive AI compression determines whether users click through to learn more. Fixing compression failure and hedging lifts the second-order revenue rate.</div>
+      </div>
+    </div>
+    <div class="roi-lever">
+      <div class="lever-icon li-3">3</div>
+      <div>
+        <div class="lever-title">Authority gap fix → close rate</div>
+        <div class="lever-desc">Source dependence and interpretive stability compound over time. As authority builds across more sources and model representations stabilize, the confidence with which you're recommended increases — which lifts close rate downstream.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p>The ROI model runs in scenarios. A Conservative scenario assumes only the highest-priority visibility fixes are implemented. An Expected scenario adds compression and clarity work. An Aggressive scenario encompasses all eight pillars across a 6–12 month remediation timeline. The revenue impact is calculated from the pipeline dollar value per AI session multiplied by the inclusion rate improvement at each stage.</p>
+
+<p>For analytics practitioners: the multiplier model is explicit. Pillar score improvement → inclusion rate change → (pipeline volume × deal value) = revenue impact. Every slider is a lever. Every scenario is a remediation strategy option with a connected revenue projection.</p>
+
+<div class="section-break">The Timeline</div>
+
+<h2>Why early movers build a structural advantage</h2>
+
+<p>In traditional SEO, a competitor can outspend you next quarter and climb past you in rankings. Week-to-week volatility is the norm. Budget is the primary lever, and the playing field can shift quickly in both directions.</p>
+
+<p>GEO has a different competitive dynamic — one that rewards early movers more durably.</p>
+
+<div class="timeline">
+  <div class="tl-item">
+    <div class="tl-period">Months 1–3</div>
+    <div class="tl-title">Foundation: entity signals, compression structure, source architecture</div>
+    <div class="tl-desc">Fix entity resolution errors, restructure content for compression survival, build out the authoritative source network. This is invisible work — no immediate score change, but it's what everything else depends on.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-period">Months 3–6</div>
+    <div class="tl-title">Propagation: fixes begin influencing model representation</div>
+    <div class="tl-desc">Changes propagate into model retraining cycles. Inclusion rates begin improving in prompt run data. This is when the score delta starts to appear in the monitoring dashboard.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-period">Months 6–9</div>
+    <div class="tl-title">Amplification: citation frequency increases, entity weight builds</div>
+    <div class="tl-desc">As the model encounters your entity more frequently across more authoritative sources, it weights the entity more heavily in its outputs. Inclusion in recommendation queries becomes more reliable. Hedging scores improve.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-period">Months 9–12</div>
+    <div class="tl-title">Stability: representation stabilizes and compounds</div>
+    <div class="tl-desc">Interpretive stability metrics show narrowing deltas between prompt runs. The model's representation of your business is consistent, authoritative, and compounding. A competitor starting now is 6–12 months behind — and they can't close that gap with a budget increase. They have to wait for the next retraining cycle.</div>
+  </div>
+</div>
+
+<p>The reason a competitor cannot simply outspend you is architectural. Once a model has encoded your entity with consistent, authoritative signals across many sources, reversing that representation requires a full model retraining cycle — not an ad campaign. The GEO advantage is encoded in the model's weights, not in a bidding auction. That's what makes early investment structural rather than tactical.</p>
+
+<div class="section-break">What's Next</div>
+
+<h2>GEO gets you recommended. WebMCP gets you transacted with.</h2>
+
+<div class="forward-box">
+  <div class="fb-head">Forward-looking · WebMCP · Chrome 146, launched February 2026</div>
+  <div class="fb-title">The next layer isn't visibility. It's action-readiness.</div>
+  <div class="fb-body">A new W3C standard, co-developed by Google and Microsoft, WebMCP lets websites expose structured tools so AI agents can act on a user's behalf — book, submit, purchase — without guessing at the interface. Visibility without action-readiness captures impressions. Visibility with action-readiness captures completed transactions.<br><br>Right now, AI agents fail on 40–60% of website interactions when using screen scraping to navigate. With WebMCP tool schemas, completion rates are 97–98%. If your competitor implements WebMCP and you don't, agents route completed transactions to them — not to you.</div>
+  <div class="stat-pair">
+    <div class="sp-item"><div class="sp-n">40–60%</div><div class="sp-l">AI agent failure rate<br>without WebMCP</div></div>
+    <div class="sp-item"><div class="sp-n">97–98%</div><div class="sp-l">Completion rate<br>with WebMCP tools</div></div>
+  </div>
+</div>
+
+<p>For businesses starting GEO work now, the timing is favorable: the entity signals and structured authority that GEO requires align naturally with the tool schemas that WebMCP needs. Building both in parallel is more efficient than treating them as sequential projects. The GEO foundation is the WebMCP foundation — the same entity clarity, the same structured data, the same authoritative source network.</p>
+
+<div class="section-break">Three Things to Take Away</div>
+
+<h2>What this means for your measurement stack</h2>
+
+<div class="takeaways">
+  <div class="takeaway">
+    <div class="ta-num">1</div>
+    <div>
+      <div class="ta-title">The decision set is the new ranking</div>
+      <div class="ta-body">Inclusion in 3 AI-recommended results matters more than position in a search list of 10. Your analytics stack doesn't see this yet — but now you know what to measure: inclusion rate, hedging score, compression failure, source dependence. These are the leading indicators that determine whether your business is in the conversation before the user ever clicks.</div>
+    </div>
+  </div>
+  <div class="takeaway">
+    <div class="ta-num">2</div>
+    <div>
+      <div class="ta-title">Authority is measurable, scoreable, and compounding</div>
+      <div class="ta-body">Eight pillars. Prioritized by layer dependency and ROI lever. Revenue model attached. GEO is now an analytics problem — which means it's solvable with the same rigor applied to any other conversion funnel. The data exists. The scoring system exists. The gap is that most businesses haven't started measuring yet.</div>
+    </div>
+  </div>
+  <div class="takeaway">
+    <div class="ta-num">3</div>
+    <div>
+      <div class="ta-title">The window is open. It will not stay open.</div>
+      <div class="ta-body">The businesses building GEO foundations today are encoding a competitive position into model weights that takes competitors 6–12 months to even approach — not match. That window exists because most businesses haven't started. By 2027, the early movers will have a structural advantage that cannot be purchased away. The cost of waiting is not a delayed start. It's a permanent gap.</div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:3rem;padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;">
+  <p style="margin-bottom:0.5rem;color:var(--text);font-size:15px"><strong>Start with a GEO audit.</strong></p>
+  <p style="margin-bottom:0;font-size:14px;color:var(--text-mid)">3 Wired Minds runs GEO audits across all eight pillars, scores your current AI visibility, and produces a prioritized action plan ordered by layer dependency and revenue impact. Contact us at <a href="mailto:hello@3wiredminds.com" style="color:var(--mint);text-decoration:none">hello@3wiredminds.com</a> to learn about early access.</p>
+</div>
+
+</div><!-- end .container -->
+</div><!-- end .article-body -->
+
+<!-- FOOTER -->
+<footer class="article-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">3 Wired<span>Minds</span></div>
+    <div class="footer-links">
+      <a href="mailto:hello@3wiredminds.com">hello@3wiredminds.com</a>
+      &nbsp;·&nbsp; 3wiredminds.com
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
